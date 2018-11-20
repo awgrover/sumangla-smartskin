@@ -33,11 +33,31 @@ Particle.prototype.update = function(){
   this.lifespan -= 0.6;
 };
 
+var gradient = {
+  start: { r: 230, g: 255, b: 255 }, // light-blue
+  end: { r: 230, g: 255, b: 230 }, // light-green
+}
+
+function linear_gradient(gradient, proportion) {
+  // fixme: use lerpcolor
+  var rgb = {};
+  rgb['r'] = lerp(gradient.start.r, gradient.end.r, proportion);
+  rgb['g'] = lerp(gradient.start.g, gradient.end.g, proportion);
+  rgb['b'] = lerp(gradient.start.b, gradient.end.b, proportion);
+  return rgb;
+}
+
 // Method to display
 Particle.prototype.display = function() {
   stroke(200, this.lifespan);
   noStroke();
-  fill(230, 255, 255, this.lifespan);
+
+  // gradient stuff
+  var current_proportion = this.position.x / width; // how far
+  var ellipse_color = linear_gradient(gradient, current_proportion);
+  fill(ellipse_color.r, ellipse_color.g, ellipse_color.b)
+
+  //fill(230, 255, 255, this.lifespan);
   ellipse(this.position.x, this.position.y, 16, 16);
 };
 
