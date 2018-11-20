@@ -29,17 +29,12 @@ var gradient = {
 
 }
 
-function linear_interpolation(start, end, proportion) {
-  // linear betweeen start..end by proportion: 1/2 is halfway
-  return (end - start) * proportion + start;
-}
-
 function linear_gradient(gradient, proportion) {
   // fixme: use lerpcolor
   var rgb = {};
-  rgb['r'] = linear_interpolation(gradient.start.r, gradient.end.r, proportion);
-  rgb['g'] = linear_interpolation(gradient.start.g, gradient.end.g, proportion);
-  rgb['b'] = linear_interpolation(gradient.start.b, gradient.end.b, proportion);
+  rgb['r'] = lerp(gradient.start.r, gradient.end.r, proportion);
+  rgb['g'] = lerp(gradient.start.g, gradient.end.g, proportion);
+  rgb['b'] = lerp(gradient.start.b, gradient.end.b, proportion);
   return rgb;
 }
 
@@ -49,7 +44,7 @@ function draw() {
   for (var i = 0; i < N; i++) {
     var y = (particles[i][1] + (random()*3)*8) % height;
 		particles[i][1] = y;
-      // linear gradient across width
+      // linear gradient of the "tail" of a rain drop
     var current_proportion = i/ width; // how far
     var ellipse_color = linear_gradient(gradient, current_proportion);
     fill(ellipse_color.r, ellipse_color.g, ellipse_color.b)
