@@ -8,7 +8,6 @@ function setup() {
 	background(255);
   frameRate(40);
 	noStroke();
-	//fill(0, 0, 0, 210);
 	N = width;
 	particles = Array(N);
 	for (var i = 0; i < N; i++) {
@@ -40,15 +39,19 @@ function linear_gradient(gradient, proportion) {
 
 
 function draw() {
-	background(255, 50);
+	background(255, 50); // this fades old raindrops, giving a "tail"
+  // for the screen width in pixels
   for (var i = 0; i < N; i++) {
     var y = (particles[i][1] + (random()*3)*8) % height;
 		particles[i][1] = y;
-      // linear gradient of the "tail" of a rain drop
-    var current_proportion = i/ width; // how far
+    var x = particles[i][0] * R * GAP;
+
+    // linear gradient of the "tail" of a rain drop
+    var current_proportion = x/ width; // how far
     var ellipse_color = linear_gradient(gradient, current_proportion);
     fill(ellipse_color.r, ellipse_color.g, ellipse_color.b)
-		ellipse(particles[i][0] * R * GAP, particles[i][1], R);
+
+		ellipse(x, y, R);
 		
 	}
 }
